@@ -1,0 +1,13 @@
+# Secrets & legacy browser configs
+config.js
+options.html
+options.js
+.env
+
+# Terraform local state and binaries
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.zip
+*.exe
+crash.log

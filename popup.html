@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privaknow</title>
+    <style>
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-weight: 400;
+        src: url('fonts/IBMPlexMono-Regular.ttf') format('truetype');
+      }
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-weight: 600;
+        src: url('fonts/IBMPlexMono-SemiBold.ttf') format('truetype');
+      }
+      @font-face {
+        font-family: 'DM Sans';
+        font-weight: 400;
+        src: url('fonts/DMSans-Regular.ttf') format('truetype');
+      }
+      @font-face {
+        font-family: 'DM Sans';
+        font-weight: 500 600;
+        src: url('fonts/DMSans-Medium.ttf') format('truetype');
+      }
+
+      :root {
+        --bg-card:        #13151c;
+        --bg-item-hover:  rgba(255,255,255,0.025);
+        --border-subtle:  #1a1d28;
+        --border-card:    #1e2130;
+        --text-primary:   #eceef5;
+        --text-secondary: #8c91a8;
+        --text-muted:     #5a6180;
+        --text-dim:       #3a3e55;
+        --safe:    #21c474;
+        --warn:    #ffaa00;
+        --danger:  #ff4646;
+        --accent:  #4f8cff;
+        --safe-bg:   rgba(33,196,116,0.10);
+        --warn-bg:   rgba(255,170,0,0.10);
+        --danger-bg: rgba(255,70,70,0.10);
+        --accent-bg: rgba(79,140,255,0.10);
+        --safe-border:   rgba(33,196,116,0.25);
+        --warn-border:   rgba(255,170,0,0.25);
+        --danger-border: rgba(255,70,70,0.25);
+        --accent-border: rgba(79,140,255,0.25);
+        --font-mono: 'IBM Plex Mono', monospace;
+        --font-sans: 'DM Sans', sans-serif;
+        color-scheme: dark;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        width: 340px;
+        background: var(--bg-card);
+        color: var(--text-primary);
+        font-family: var(--font-sans);
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      .pk-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px 11px;
+        border-bottom: 1px solid var(--border-subtle);
+      }
+
+      .pk-logo-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .pk-logo {
+        width: 22px;
+        height: 22px;
+        background: linear-gradient(135deg, var(--accent), #a259ff);
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 600;
+        color: #fff;
+        flex-shrink: 0;
+      }
+
+      .pk-wordmark {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-muted);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .pk-scan-status {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--safe);
+        background: var(--safe-bg);
+        border: 1px solid var(--safe-border);
+        padding: 2px 8px;
+        border-radius: 999px;
+      }
+
+      .pk-scan-dot {
+        width: 5px;
+        height: 5px;
+        background: var(--safe);
+        border-radius: 50%;
+        animation: blink 2s ease-in-out infinite;
+      }
+
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50%       { opacity: 0.3; }
+      }
+
+      .pk-service-block { padding: 12px 16px 8px; }
+
+      .pk-service-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .pk-service-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-primary);
+        line-height: 1.3;
+      }
+
+      .pk-service-url {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-top: 2px;
+        font-family: var(--font-mono);
+      }
+
+      .pk-badge {
+        padding: 3px 10px;
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        font-family: var(--font-mono);
+        text-transform: uppercase;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      .pk-badge-high    { background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger-border); }
+      .pk-badge-medium  { background: var(--warn-bg);   color: var(--warn);   border: 1px solid var(--warn-border); }
+      .pk-badge-low     { background: var(--safe-bg);   color: var(--safe);   border: 1px solid var(--safe-border); }
+      .pk-badge-unknown { background: rgba(90,97,128,0.12); color: var(--text-muted); border: 1px solid rgba(90,97,128,0.25); }
+
+      .pk-score-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 16px 10px;
+      }
+
+      .pk-score-label {
+        font-size: 10px;
+        color: var(--text-dim);
+        font-family: var(--font-mono);
+        white-space: nowrap;
+      }
+
+      .pk-score-track {
+        flex: 1;
+        height: 3px;
+        background: var(--border-card);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .pk-score-fill {
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(to right, var(--safe) 0%, var(--warn) 55%, var(--danger) 100%);
+        transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+      }
+
+      .pk-summary {
+        padding: 0 16px 10px;
+        font-size: 12px;
+        color: var(--text-secondary);
+        line-height: 1.5;
+      }
+
+      .pk-summary strong {
+        color: #c8ccdc;
+        font-weight: 500;
+      }
+
+      .pk-why-matters {
+        margin-top: 6px;
+        font-size: 11px;
+        color: var(--warn);
+        background: rgba(255,170,0,0.06);
+        border-left: 2px solid rgba(255,170,0,0.4);
+        padding: 5px 8px;
+        border-radius: 0 4px 4px 0;
+        line-height: 1.45;
+      }
+
+      .pk-divider {
+        height: 1px;
+        background: var(--border-subtle);
+        margin: 0 16px;
+      }
+
+      .pk-items {
+        padding: 6px 12px 4px;
+        display: flex;
+        flex-direction: column;
+        max-height: 220px;
+        overflow-y: auto;
+      }
+
+      .pk-items::-webkit-scrollbar { width: 3px; }
+      .pk-items::-webkit-scrollbar-track { background: transparent; }
+      .pk-items::-webkit-scrollbar-thumb { background: var(--border-card); border-radius: 999px; }
+
+      .pk-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 9px;
+        padding: 7px 4px;
+        border-bottom: 1px solid var(--border-subtle);
+        border-radius: 4px;
+        transition: background 0.12s;
+      }
+
+      .pk-item:last-child { border-bottom: none; }
+      .pk-item:hover { background: var(--bg-item-hover); }
+
+      .pk-item-icon {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        font-weight: 700;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+
+      .pk-icon-safe    { background: var(--safe-bg);   color: var(--safe);   border: 1px solid var(--safe-border); }
+      .pk-icon-warn    { background: var(--warn-bg);   color: var(--warn);   border: 1px solid var(--warn-border); }
+      .pk-icon-danger  { background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger-border); }
+      .pk-icon-unknown { background: rgba(90,97,128,0.10); color: var(--text-muted); border: 1px solid rgba(90,97,128,0.2); }
+
+      .pk-item-body { flex: 1; min-width: 0; }
+
+      .pk-item-label {
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--text-primary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-family: var(--font-mono);
+        margin-bottom: 1px;
+      }
+
+      .pk-item-text {
+        font-size: 11.5px;
+        color: var(--text-secondary);
+        line-height: 1.4;
+      }
+
+      .pk-footer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 8px 16px 12px;
+        border-top: 1px solid var(--border-subtle);
+        margin-top: 2px;
+      }
+
+      .pk-btn-ghost {
+        border: none;
+        background: transparent;
+        color: var(--text-dim);
+        font-size: 10px;
+        font-family: var(--font-mono);
+        padding: 4px 6px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: color 0.15s;
+        letter-spacing: 0.03em;
+      }
+
+      .pk-btn-ghost:hover { color: var(--text-secondary); }
+
+      .pk-state {
+        padding: 20px 16px 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .pk-state-text {
+        font-size: 12px;
+        color: var(--text-secondary);
+        line-height: 1.5;
+      }
+
+      .pk-state-text.error { color: #ff7675; }
+
+      .pk-skeleton {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .pk-skel-bar {
+        height: 9px;
+        border-radius: 6px;
+        background: var(--border-card);
+        animation: pulse 1.4s ease-in-out infinite;
+      }
+
+      .pk-skel-bar:nth-child(1) { width: 100%; }
+      .pk-skel-bar:nth-child(2) { width: 82%; animation-delay: 0.1s; }
+      .pk-skel-bar:nth-child(3) { width: 90%; animation-delay: 0.2s; }
+      .pk-skel-bar:nth-child(4) { width: 70%; animation-delay: 0.3s; }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 0.35; }
+        50%       { opacity: 0.8; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="pk-header">
+      <div class="pk-logo-row">
+        <div class="pk-logo">P</div>
+        <span class="pk-wordmark">Privaknow</span>
+      </div>
+      <div class="pk-scan-status" id="scanStatus" style="display:none;">
+        <span class="pk-scan-dot"></span>
+        scanned
+      </div>
+    </header>
+    <main id="content"></main>
+    <script src="popup.js"></script>
+  </body>
+</html>
