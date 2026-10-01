@@ -145,4 +145,4 @@ def lambda_handler(event, context):
             "statusCode": 500,
             "headers": cors_headers,
             "body": json.dumps({"error": "Failed to analyze policy document."})
-        }
+        } 
