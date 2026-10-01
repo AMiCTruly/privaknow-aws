@@ -57,5 +57,13 @@ jobs:
       - name: Terraform Init
         run: terraform -chdir=infra init
 
+      - name: Import Existing Resources
+        working-directory: ./infra
+        continue-on-error: true
+        run: |
+          terraform import aws_dynamodb_table.cache_table privaknow-policy-cache || true
+          terraform import aws_ssm_parameter.anthropic_api_key /privaknow/anthropic_api_key || true
+          terraform import aws_iam_role.lambda_exec privaknow-lambda-exec-role || true
+          terraform import aws_lambda_function.privaknow_api privaknow-policy-analyzer || true
       - name: Terraform Apply
         run: terraform -chdir=infra apply -auto-approve
