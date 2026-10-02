@@ -43,6 +43,7 @@ def call_claude_api(api_key: str, policy_text: str) -> dict:
     headers = {
         "x-api-key": api_key,
         "anthropic-version": "2023-06-01",
+        "anthropic-workspace-id": "wrkspc_016Lpcv5UBWtPsfg195XPci4",  # Put your workspace ID here
         "content-type": "application/json",
     }
 
@@ -62,13 +63,13 @@ def call_claude_api(api_key: str, policy_text: str) -> dict:
         "  ]\n"
         "}\n"
         "Cover these categories: Data collection, Third-party sharing, "
-        "Your deletion rights, Tracking, Children\'s data.\n"
+        "Your deletion rights, Tracking, Children's data.\n"
         "Keep each finding under 15 words. Be direct and plain.\n\n"
         f"Policy text:\n{policy_text[:12000]}"
     )
 
     payload = {
-        "model": "claude-haiku-4-5-20251001",
+        "model": "claude-3-5-haiku-latest",
         "max_tokens": 1024,
         "system": system_prompt,
         "messages": [{"role": "user", "content": user_instruction}],
