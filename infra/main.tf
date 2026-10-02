@@ -154,11 +154,11 @@ resource "aws_apigatewayv2_stage" "default_stage" {
 }
 
 resource "aws_lambda_permission" "apigw_invoke" {
-  statement_id  = "AllowAPIGatewayInvoke"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.privaknow_api.function_name
-  principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_apigatewayv2_api.http_api.execution_arn}/*/*/analyze"
+  statement_id_prefix = "AllowAPIGatewayInvoke-"
+  action              = "lambda:InvokeFunction"
+  function_name       = aws_lambda_function.privaknow_api.function_name
+  principal           = "apigateway.amazonaws.com"
+  source_arn          = "${aws_apigatewayv2_api.http_api.execution_arn}/*/*"
 }
 
 output "api_endpoint" {
