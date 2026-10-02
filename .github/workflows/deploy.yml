@@ -65,6 +65,7 @@ jobs:
           terraform import aws_ssm_parameter.anthropic_api_key /privaknow/anthropic_api_key || true
           terraform import aws_iam_role.lambda_exec privaknow-lambda-exec-role || true
           terraform import aws_lambda_function.privaknow_api privaknow-policy-analyzer || true
+          terraform import aws_iam_policy.lambda_policy arn:aws:iam::058264242942:policy/privaknow-lambda-permissions || true
           
       - name: Terraform Apply
         run: terraform -chdir=infra apply -auto-approve
