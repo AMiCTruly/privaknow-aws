@@ -43,7 +43,6 @@ def call_claude_api(api_key: str, policy_text: str) -> dict:
     headers = {
         "x-api-key": api_key,
         "anthropic-version": "2023-06-01",
-        "anthropic-workspace-id": "wrkspc_016Lpcv5UBWtPsfg195XPci4",  # Put your workspace ID here
         "content-type": "application/json",
     }
 
@@ -69,7 +68,7 @@ def call_claude_api(api_key: str, policy_text: str) -> dict:
     )
 
     payload = {
-        "model": "claude-3-5-haiku-latest",
+        "model": "claude-3-5-haiku-20241022",
         "max_tokens": 1024,
         "system": system_prompt,
         "messages": [{"role": "user", "content": user_instruction}],
